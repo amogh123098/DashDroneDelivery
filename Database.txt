@@ -1,0 +1,92 @@
+drop database DDD;
+
+create database DDD;
+
+use DDD;
+
+CREATE TABLE  Customers 
+(
+   customer_id  int(9) unsigned NOT NULL AUTO_INCREMENT,
+   customer_username  varchar(100) NOT NULL UNIQUE,
+   customer_password  varchar(255) NOT NULL,
+   customer_payment_id  int(9) unsigned NOT NULL DEFAULT  1,
+   customer_firstname  varchar(100) NOT NULL,
+   customer_lastname  varchar(100) NOT NULL,
+   customer_phone  varchar(255) NOT NULL,
+   customer_email  varchar(100) NOT NULL,
+   PRIMARY KEY ( customer_id )
+ 
+);
+
+
+CREATE TABLE  Addresses  
+(
+   address_id  int(9) unsigned NOT NULL AUTO_INCREMENT,
+   line_1  varchar(255) NOT NULL,
+   line_2  varchar(255) NOT NULL,
+   line_3  varchar(255) ,
+   city  varchar(255) NOT NULL,
+   state  varchar(255) NOT NULL,
+   country  varchar(255) NOT NULL,
+   pin_code  int(9) unsigned NOT NULL,
+  customer_id  int(9) unsigned NOT NULL,
+  PRIMARY KEY ( address_id ),
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON UPDATE CASCADE ON DELETE RESTRICT
+) ;
+
+
+
+
+
+CREATE TABLE  Employees
+(
+   employee_id  int(9) unsigned NOT NULL AUTO_INCREMENT,
+   employee_username  varchar(100) NOT NULL UNIQUE,
+   employee_password  varchar(255) NOT NULL,
+   employee_salary_id  int(9) unsigned NOT NULL DEFAULT  1,
+   employee_firstname  varchar(100) NOT NULL,
+   employee_lastname  varchar(100) NOT NULL,
+   employee_phone  varchar(255) NOT NULL,
+   employee_email  varchar(100) NOT NULL,
+  PRIMARY KEY ( employee_id )
+);
+
+
+
+
+
+CREATE TABLE  Packages
+(
+   package_id  int(9) unsigned NOT NULL AUTO_INCREMENT,
+   customer_id  int(9) unsigned NOT NULL,
+   employee_id  int(9) unsigned NOT NULL DEFAULT 1,
+   package_weight  float unsigned NOT NULL,
+   package_type  varchar(255) NOT NULL,
+   package_delivery_type   varchar(255) NOT NULL,
+   line_1  varchar(255) NOT NULL,
+   line_2  varchar(255) NOT NULL,
+   line_3  varchar(255) NOT NULL,
+   city  varchar(255) NOT NULL,
+   state  varchar(255) NOT NULL,
+   country  varchar(255) NOT NULL,
+   pin_code  int(9) unsigned NOT NULL,
+  PRIMARY KEY ( package_id ),
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON UPDATE CASCADE ON DELETE RESTRICT, 
+  FOREIGN KEY (employee_id) REFERENCES Employees(employee_id) ON UPDATE CASCADE ON DELETE RESTRICT
+  
+);
+
+
+
+CREATE TABLE  Delivery_Status  (
+   package_id  int(9) unsigned NOT NULL,
+   Delivery_status_code  int(9) unsigned NOT NULL AUTO_INCREMENT,
+   Delivery_status_time DATE NOT NULL,	
+   Delivery_status_description  varchar(255) NOT NULL,
+  PRIMARY KEY ( Delivery_status_code ),
+FOREIGN KEY (package_id) REFERENCES Packages(package_id )
+   ON UPDATE CASCADE ON DELETE RESTRICT
+) ;
+
+
+
